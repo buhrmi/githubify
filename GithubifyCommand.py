@@ -41,7 +41,4 @@ class GithubifyCommand(sublime_plugin.TextCommand):
         url = 'https://github.com/%s/blob/%s/%s#L%s' % \
             (github_repo, branch, relfile, lines)
 
-        sublime.set_clipboard(url)
-        sublime.status_message('Copied %s to clipboard.' % url)
-
         self.view.window().run_command('open_url', {"url": url})
