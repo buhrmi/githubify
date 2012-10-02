@@ -1,6 +1,10 @@
 [
   {
     "caption": "View File on Github"
-  , "command": "view_on_github"
+  , "command": "githubify"
+  },
+  {
+    "caption": "Blame File on Github"
+  , "command": "githubify_blame"
   }
 ]

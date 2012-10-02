@@ -1,3 +1,4 @@
 [
-    { "keys": ["super+\\"], "command": "githubify"}
+    { "keys": ["super+\\"], "command": "githubify"},
+    { "keys": ["shift+super+\\"], "command": "githubify_blame"}
 ]

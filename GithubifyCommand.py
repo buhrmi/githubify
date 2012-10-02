@@ -4,8 +4,7 @@ import subprocess
 import os
 
 
-class GithubifyCommand(sublime_plugin.TextCommand):
-
+class Githubify(sublime_plugin.TextCommand):
     def check_output(self, command, cwd):
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, cwd=cwd)
         output, unused_err = process.communicate()
@@ -18,7 +17,7 @@ class GithubifyCommand(sublime_plugin.TextCommand):
             raise error
         return output
 
-    def run(self, edit):
+    def gather_info(self, edit):
         absfile = self.view.file_name()
 
         if absfile == None:
@@ -38,7 +37,24 @@ class GithubifyCommand(sublime_plugin.TextCommand):
         else:
             lines = '%s-%s' % (begin_line, end_line)
 
+        return github_repo, branch, relfile, lines
+
+
+class GithubifyCommand(Githubify):
+    def run(self, edit):
+        github_repo, branch, relfile, lines = self.gather_info(edit)
+
         url = 'https://github.com/%s/blob/%s/%s#L%s' % \
+            (github_repo, branch, relfile, lines)
+
+        self.view.window().run_command('open_url', {"url": url})
+
+
+class GithubifyBlameCommand(Githubify):
+    def run(self, edit):
+        github_repo, branch, relfile, lines = self.gather_info(edit)
+
+        url = 'https://github.com/%s/blame/%s/%s#L%s' % \
             (github_repo, branch, relfile, lines)
 
         self.view.window().run_command('open_url', {"url": url})
