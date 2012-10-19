@@ -25,10 +25,10 @@ class Githubify(sublime_plugin.TextCommand):
 
         cwd = os.path.dirname(absfile)
         git_root = self.check_output("git rev-parse --show-toplevel", cwd).strip()
-        github_repo = self.check_output("git remote -v 2> /dev/null | grep github | awk '{ print $2 }' | sed -e 's/git@github.com:\\(.*\\).git/\\1/' | head -n 1", cwd).strip()
+        github_repo = self.check_output("git remote -v 2> /dev/null | grep @github | awk '{ print $2 }' | sed -e 's/git@github.com:\\(.*\\).git/\\1/' | head -n 1", cwd).strip()
         branch = self.check_output("git branch | sed -e '/^[^*]/d' -e 's/* \\(.*\)/\\1/' -e 's/#/%23/'", cwd).strip()
         relfile = os.path.relpath(absfile, git_root)
-
+        print github_repo
         sel = self.view.sel()[0]
         begin_line = self.view.rowcol(sel.begin())[0] + 1
         end_line = self.view.rowcol(sel.end())[0] + 1
